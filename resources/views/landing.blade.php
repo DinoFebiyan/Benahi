@@ -23,7 +23,7 @@
         <div class="col-md-4">
             <img src="{{ asset('images/icon-booking.png') }}" alt="Booking" width="60">
             <h4 class="mt-3">Booking Online</h4>
-            <p>Reservasi teknisi hanya dengan beberapa klik.</p>
+            <p>Reservasi teknisi hanya dengan beberapa klik mudah dan gampang.</p>
         </div>
         <div class="col-md-4">
             <img src="{{ asset('images/icon-tracking.png') }}" alt="Tracking" width="60">
