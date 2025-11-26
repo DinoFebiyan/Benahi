@@ -2,14 +2,41 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+// dashboard pengguna
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    if (Auth::user()->role !== 'pengguna') {
+        abort(403, 'Anda tidak memiliki akses.');
+    }
+    return view('pengguna.dashboard');
+})->middleware(['auth', 'verified'])->name('pengguna.dashboard');
+
+
+// dashboard teknisi
+Route::get('/dashboard-teknisi', function () {
+    if (Auth::user()->role !== 'teknisi') {
+        abort(403, 'Anda tidak memiliki akses.');
+    }
+    return view('teknisi.dashboard');
+})->middleware(['auth', 'verified'])->name('teknisi.dashboard');
+
+// dashboard admin
+Route::get('/dashboard-admin', function () {
+    if (Auth::user()->role !== 'admin') {
+        abort(403, 'Anda tidak memiliki akses.');
+    }
+    return view('admin.dashboard');
+})->middleware(['auth', 'verified'])->name('admin.dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
