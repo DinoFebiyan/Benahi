@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Http\Controllers\AdminUserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -43,5 +45,23 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// form tambah teknisi
+Route::get('/admin/create-teknisi', function () {
+    if (Auth::user()->role !== 'admin') {
+        abort(403, 'Anda tidak memiliki akses.');
+    }
+
+    return app(\App\Http\Controllers\AdminUserController::class)->createForm();
+})->middleware(['auth', 'verified'])->name('admin.createTeknisi');
+
+// proses tambah teknisi
+Route::post('/admin/create-teknisi', function (Request $request) {
+    if (Auth::user()->role !== 'admin') {
+        abort(403, 'Anda tidak memiliki akses.');
+    }
+
+    return app(AdminUserController::class)->create($request);
+})->middleware(['auth', 'verified'])->name('admin.storeTeknisi');
 
 require __DIR__.'/auth.php';
