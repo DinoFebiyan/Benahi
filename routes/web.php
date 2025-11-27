@@ -79,8 +79,8 @@ use Illuminate\Http\Request;
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
-    return view('landing'); // resources/views/landing.blade.php
-})->name('landing');
+    return view('welcome'); // resources/views/landing.blade.php
+})->name('welcome');
 
 /*
 |--------------------------------------------------------------------------
