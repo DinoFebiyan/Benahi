@@ -11,8 +11,8 @@
         <!-- CTA Buttons -->
         <div class="mt-4">
             <!-- sementara pakai link dummy -->
-            <a href="#" class="btn btn-danger btn-lg me-2">Login</a>
-            <a href="#" class="btn btn-outline-light btn-lg">Register</a>
+            <a href="{{ route ('login')}}" class="btn btn-danger btn-lg me-2">Login</a>
+            <a href="{{ route ('register')}}" class="btn btn-outline-light btn-lg">Register</a>
         </div>
     </div>
 </section>

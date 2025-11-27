@@ -11,7 +11,10 @@
     <!-- Navbar sederhana -->
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('landing') }}">Reservasi Teknisi</a>
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('landing') }}">
+                <img src="{{ asset('images/logo-saja.png') }}" alt="Logo" height="40" class="me-2">
+                <span>Reservasi Teknisi</span>
+            </a>
         </div>
     </nav>
 
