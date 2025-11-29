@@ -69,6 +69,10 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\TeknisiUController;
+use App\Http\Controllers\Auth\PenggunaAuthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -93,6 +97,36 @@ Route::get('/', function () {
 */
 Route::middleware(['auth'])->group(function () {
 
+        // Dashboard Pengguna
+    Route::get('/dashboard', function () {
+        if (Auth::user()->role !== 'pengguna') {
+            abort(403, 'Anda tidak memiliki akses.');
+        }
+        return view('pengguna.dashboard'); // resources/views/pengguna/dashboard.blade.php
+    })->name('pengguna.dashboard');
+
+    // login pengguna
+    Route::get('/login-pengguna', [PenggunaAuthController::class, 'showLoginForm'])
+    ->name('pengguna.login');
+
+Route::post('/login-pengguna', [PenggunaAuthController::class, 'login'])
+    ->name('pengguna.login.submit');
+
+    // detail teknisi
+    Route::get('/teknisi/{id}', [TeknisiUController::class, 'detail'])->name('user.teknisiDetail');
+    // pencarian teknisi
+    Route::get('/search', [TeknisiUController::class, 'search'])->name('user.searchTeknisi');
+    // order teknisi
+    Route::post('/order/{teknisiId}', [OrderController::class, 'store'])->name('user.orderTeknisi');
+    // daftar pesanan user
+    Route::get('/orders', [OrderController::class, 'index'])->name('user.orders');
+
+    // register pengguna
+    Route::get('/register-pengguna', [PenggunaAuthController::class, 'showRegisterForm'])->name('pengguna.register');
+
+    Route::post('/register-pengguna', [PenggunaAuthController::class, 'register'])->name('pengguna.register.submit');
+
+
     // Dashboard Admin
     Route::get('/dashboard-admin', function () {
         if (Auth::user()->role !== 'admin') {
@@ -108,14 +142,6 @@ Route::middleware(['auth'])->group(function () {
         }
         return view('teknisi.dashboard'); // resources/views/teknisi/dashboard.blade.php
     })->name('teknisi.dashboard');
-
-    // Dashboard Pengguna
-    Route::get('/dashboard', function () {
-        if (Auth::user()->role !== 'pengguna') {
-            abort(403, 'Anda tidak memiliki akses.');
-        }
-        return view('pengguna.dashboard'); // resources/views/pengguna/dashboard.blade.php
-    })->name('pengguna.dashboard');
 
     /*
     |--------------------------------------------------------------------------
