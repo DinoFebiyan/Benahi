@@ -23,7 +23,7 @@ class TeknisiController extends Controller
 
     public function search(Request $request)
     {
-        $q = $request->input('q','');
+        $query = $request->input('q','');
         $teknisis = Teknisi::where('nama','like', "%{$q}%")
             ->orWhere('kategori','like', "%{$q}%")
             ->orderBy('rating','desc')
