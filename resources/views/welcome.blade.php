@@ -40,11 +40,11 @@
               Dashboard
             </a>
           @else
-            <a href="{{ route('pengguna.login') }}" class="px-5 py-2 border rounded text-sm">
+            <a href="{{ route('login') }}" class="px-5 py-2 border rounded text-sm">
                 Masuk
             </a>
             @if (Route::has('register'))
-              <a href="{{ route('pengguna.register') }}" 
+              <a href="{{ route('register') }}" 
                 class="px-5 py-2 bg-[#1b1b18] text-white rounded text-sm">
                 Buat Akun
               </a>
@@ -62,7 +62,7 @@
       <h1 class="text-4xl font-bold mb-4">Servis Laptop, Motor, dan Elektronik Lebih Mudah</h1>
       <p class="text-base text-[#706f6c] dark:text-gray-300 mb-6">Pesan teknisi terpercaya kapan saja, langsung dari rumah Anda.</p>
       <div class="flex gap-4">
-        <a href="{{ route('pengguna.login') }}" class="bg-[#1b1b18] text-white px-6 py-3 rounded-md">Pesan Sekarang</a>
+        <a href="{{ route('login') }}" class="bg-[#1b1b18] text-white px-6 py-3 rounded-md">Pesan Sekarang</a>
         <a href="#tentang" class="border px-6 py-3 rounded-md">Pelajari Lebih Lanjut</a>
       </div>
     </div>
@@ -164,10 +164,10 @@
   <section class="container mx-auto max-w-screen-lg px-6 py-10">
     <div class="bg-[#1b1b18] text-white rounded-lg p-6 flex flex-col sm:flex-row items-center justify-between gap-6">
       <div>
-        <h4 class="text-xl font-semibold">Butuh teknisi dino ganteng sekarang?</h4>
+        <h4 class="text-xl font-semibold">Butuh teknisi sekarang?</h4>
         <p class="text-sm text-gray-300">Pesan teknisi terpercaya, cepat dan aman.</p>
       </div>
-      <a href="{{ route('pengguna.login') }}" class="px-6 py-3 bg-white text-[#1b1b18] rounded-md font-medium">Pesan Sekarang</a>
+      <a href="{{ route('login') }}" class="px-6 py-3 bg-white text-[#1b1b18] rounded-md font-medium">Pesan Sekarang</a>
     </div>
   </section>
 
@@ -185,7 +185,7 @@
         Dengan Benahi, proses pemesanan teknisi menjadi lebih terstruktur dan terpercaya. Semua interaksi dilakukan melalui satu platform yang terintegrasi, sehingga pengguna dapat merasa tenang dan yakin terhadap layanan yang diberikan.
       </p>
       <div class="pt-4">
-        <a href="{{ route('pengguna.register') }}" class="inline-block px-6 py-3 bg-[#1b1b18] text-white rounded-md">Mulai Gunakan Benahi</a>
+        <a href="{{ route('register') }}" class="inline-block px-6 py-3 bg-[#1b1b18] text-white rounded-md">Mulai Gunakan Benahi</a>
       </div>
     </div>
   </section>
@@ -200,10 +200,10 @@
           <div class="text-sm text-[#706f6c] dark:text-gray-300">Solusi servis terpercaya</div>
         </div>
       </div>
-      <a href="{{ route('pengguna.login') }}" class="px-5 py-3 bg-[#1b1b18] text-white rounded-md">Pesan Sekarang</a>
+      <a href="{{ route('login') }}" class="px-5 py-3 bg-[#1b1b18] text-white rounded-md">Pesan Sekarang</a>
     </div>
     <div class="text-center text-sm text-[#706f6c] dark:text-gray-400 py-4">
-      © copyright by Dino Febiyan
+      © copyright by Benahi.com
     </div>
   </footer>
 
