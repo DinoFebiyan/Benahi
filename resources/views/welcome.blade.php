@@ -148,7 +148,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
       @foreach ([
         ['nama' => 'Andi Pratama', 'foto' => 'andiPratama.jpg', 'spesialis' => 'Teknisi Elektronik'],
-        ['nama' => 'Siti Rahma', 'foto' => 'siti.jpg', 'spesialis' => 'Teknisi Mesin'],
+        ['nama' => 'Sandi Putra', 'foto' => 'siti.jpg', 'spesialis' => 'Teknisi Mesin'],
         ['nama' => 'Budi Santoso', 'foto' => 'budi.jpg', 'spesialis' => 'Teknisi Motor'],
       ] as $teknisi)
       <article class="bg-white dark:bg-[#1b1b18] rounded-lg shadow p-6 text-center">
