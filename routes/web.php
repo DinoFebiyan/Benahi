@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
         if (Auth::user()->role !== 'pengguna') {
             abort(403, 'Anda tidak memiliki akses.');
         }
-        return view('pengguna.dashboard'); // resources/views/pengguna/dashboard.blade.php
+        return app(UserDashboardController::class)->index();
     })->name('pengguna.dashboard');
 
     // Login pengguna

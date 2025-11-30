@@ -6,7 +6,7 @@
 
 <div class="mt-3">
     @foreach($orders as $order)
-        @include('user.components.cardPesanan', ['order'=>$order])
+        @include('pengguna.components.cardPesanan', ['order'=>$order])
     @endforeach
 </div>
 

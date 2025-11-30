@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Teknisi;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserDashboardController extends Controller
 {
@@ -19,6 +21,12 @@ class UserDashboardController extends Controller
                         ->take(4)
                         ->get();
 
-        return view('pengguna.dashboard', compact('topRated', 'random'));
+        // pesanan terbaru user yang sedang login
+        $recent = Order::where('user_id', Auth::id())
+                        ->latest()
+                        ->take(5)
+                        ->get();
+
+        return view('pengguna.dashboard', compact('topRated', 'random', 'recent'));
     }
 }

@@ -11,7 +11,7 @@
 </head>
 <body>
 
-@include('user.components.navbar')
+@include('pengguna.components.navbar')
 
 <div class="container py-4">
     @yield('content')
