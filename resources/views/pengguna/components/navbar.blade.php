@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="{{ route('user.dashboard') }}">Benahi</a>
+    <a class="navbar-brand fw-bold" href="{{ route('pengguna.dashboard') }}">Benahi</a>
 
-    <form class="d-flex mx-auto" action="{{ route('teknisi.search') }}" method="GET">
-        <input name="q" value="{{ request('q') }}" class="form-control" placeholder="Cari teknisi atau kategori...">
+    <form class="d-flex mx-auto" action="{{ route('pengguna.search') }}" method="GET">
+        <input name="q" value="{{ request('query') }}" class="form-control" placeholder="Cari teknisi atau kategori...">
     </form>
 
     <ul class="navbar-nav ms-auto">
