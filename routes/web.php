@@ -25,56 +25,41 @@ Route::get('/', function () {
 | Dashboard Multi-Role
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', ])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
     // Dashboard Pengguna
-    Route::get('/dashboard', [UserDashboardController::class, 'index'])
-    ->name('pengguna.dashboard');
+    Route::get('/dashboard', function () {
+        if (Auth::user()->role !== 'pengguna') {
+            abort(403, 'Anda tidak memiliki akses.');
+        }
+        return app(UserDashboardController::class)->index();
+    })->name('pengguna.dashboard');
 
-    Route::get('/dashboard-teknisi', function () {
-        if (Auth::user()->role !== 'teknisi') {
-            abort(403, 'Anda tidak memiliki akses.');
-        }
-        return view('teknisi.dashboard');
-    })->middleware(['auth', 'verified'])->name('teknisi.dashboard');
-    
-    // dashboard admin
-    Route::get('/dashboard-admin', function () {
-        if (Auth::user()->role !== 'admin') {
-            abort(403, 'Anda tidak memiliki akses.');
-        }
-        return view('admin.dashboard');
-    })->middleware(['auth', 'verified'])->name('admin.dashboard');
-    
-    Route::get('/admin/create-teknisi', function () {
-        if (Auth::user()->role !== 'admin') {
-            abort(403, 'Anda tidak memiliki akses.');
-        }
-    
-        return app(\App\Http\Controllers\AdminUserController::class)->createForm();
-    })->middleware(['auth', 'verified'])->name('admin.createTeknisi');
-    
-    // proses tambah teknisi
-    Route::post('/admin/create-teknisi', function (Request $request) {
-        if (Auth::user()->role !== 'admin') {
-            abort(403, 'Anda tidak memiliki akses.');
-        }
-    
-        return app(AdminUserController::class)->create($request);
-    })->middleware(['auth', 'verified'])->name('admin.storeTeknisi');
-    
+    // Login pengguna
+    Route::get('/login-pengguna', [PenggunaAuthController::class, 'showLoginForm'])
+        ->name('pengguna.login');
 
-    // // Detail teknisi
+    Route::post('/login-pengguna', [PenggunaAuthController::class, 'login'])
+        ->name('pengguna.login.submit');
+
+    // Register pengguna
+    Route::get('/register-pengguna', [PenggunaAuthController::class, 'showRegisterForm'])
+        ->name('pengguna.register');
+
+    Route::post('/register-pengguna', [PenggunaAuthController::class, 'register'])
+        ->name('pengguna.register.submit');
+
+    // Detail teknisi
     Route::get('/teknisi/{id}', [TeknisiUController::class, 'detail'])->name('user.teknisiDetail');
 
     // Pencarian teknisi
-    Route::get('/search', [TeknisiUController::class, 'search'])->name('pengguna.search');
+    Route::get('/search', [TeknisiUController::class, 'search'])->name('user.searchTeknisi');
 
-    // // Order teknisi
+    // Order teknisi
     Route::post('/order/{teknisiId}', [OrderController::class, 'store'])->name('user.orderTeknisi');
 
-    // // Daftar pesanan user
-     Route::get('/orders', [OrderController::class, 'index'])->name('user.orders');
+    // Daftar pesanan user
+    Route::get('/orders', [OrderController::class, 'index'])->name('user.orders');
 
     /*
     |--------------------------------------------------------------------------

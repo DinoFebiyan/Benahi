@@ -11,11 +11,6 @@ use App\Mail\OrderPlacedMail;
 
 class OrderController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function store(Request $request, $teknisiId)
     {
         $request->validate([
@@ -42,7 +37,7 @@ class OrderController extends Controller
         // Kirim email ke teknisi
         Mail::to($teknisi->email)->send(new OrderPlacedMail($order));
 
-        return redirect()->route('orders.index')
+        return redirect()->route('user.orders')
             ->with('success','Pesanan berhasil dikirim. Teknisi akan menghubungi Anda.');
     }
 
@@ -53,6 +48,6 @@ class OrderController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('orders.index', compact('orders'));
+        return view('pengguna.pesanan', compact('orders'));
     }
 }

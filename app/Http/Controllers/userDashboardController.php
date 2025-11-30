@@ -2,33 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; 
 use App\Models\Teknisi;
 use App\Models\Order;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserDashboardController extends Controller
 {
     public function index()
     {
+        // teknisi rating tertinggi
+        $topRated = Teknisi::orderBy('rating', 'DESC')
+                        ->take(4)
+                        ->get();
 
-        $user = Auth:: user();
+        // teknisi random
+        $random = Teknisi::inRandomOrder()
+                        ->take(4)
+                        ->get();
 
-        if ($user -> role != 'pengguna') {
-            abort(403, 'Anda tidak  memiliki akses');
-        }
+        // pesanan terbaru user yang sedang login
+        $recent = Order::where('user_id', Auth::id())
+                        ->latest()
+                        ->take(5)
+                        ->get();
 
-        //Ambil top rate teknisi 
-        $topRated = Teknisi::orderByDesc('rating')->take(5)->get();
-
-        // ambil teknisi random
-        $random = Teknisi::inRandomOrder()->take(4)->get();
-
-        $recent = Order::where('user_id', $user->id)
-        ->orderByDesc('created_at')
-        ->take(5)
-        ->get();
-
-        return view('pengguna.dashboard', compact('topRated', 'random','recent'));
+        return view('pengguna.dashboard', compact('topRated', 'random', 'recent'));
     }
 }
