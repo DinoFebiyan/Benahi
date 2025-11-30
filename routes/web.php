@@ -137,6 +137,8 @@ Route::middleware(['auth'])->group(function () {
             ->name('payments.show');
     });
 
+    Route::middleware('auth', role: admin)->group (function())
+
 });
 
 /*
