@@ -11,7 +11,7 @@ class TeknisiUController extends Controller
     public function detail($id)
     {
         $teknisi = Teknisi::findOrFail($id);
-        return view('user.detailTeknisi', compact('teknisi'));
+        return view('pengguna.detailTeknisi', compact('teknisi'));
     }
 
     // pencarian teknisi berdasarkan nama atau kategori
@@ -24,6 +24,6 @@ class TeknisiUController extends Controller
                         ->orderBy('rating','desc')
                         ->paginate(12);
 
-        return view('user.search', compact('teknisis','q'));
+        return view('pengguna.search', compact('teknisis','q'));
     }
 }

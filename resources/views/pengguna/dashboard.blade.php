@@ -5,11 +5,24 @@
         </h2>
     </x-slot>
 
+
+
+
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+                        <!-- Greeting -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
+                <div class="p-6 text-gray-900">
+                    <h3 class="text-lg font-semibold">Halo, {{ auth()->user()->name }} 👋</h3>
+                    <p class="mt-2 text-gray-600">Selamat datang di dashboard pengguna Benahi. Temukan teknisi terbaik untuk kebutuhan Anda!</p>
+                </div>
+            </div>
+
             <!-- Form Pencarian Teknisi -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6">
+                    <h5 class="font-semibold text-lg mb-4">Cari Teknisi Disini!</h5>
                     <form action="{{ route('user.searchTeknisi') }}" method="GET" class="flex gap-2">
                         <input type="text" name="q" value="{{ request('q') }}" 
                                class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
@@ -22,17 +35,12 @@
                 </div>
             </div>
 
-            <!-- Greeting -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                <div class="p-6 text-gray-900">
-                    <h3 class="text-lg font-semibold">Halo, {{ auth()->user()->name }} 👋</h3>
-                </div>
-            </div>
+
 
             <!-- Rekomendasi Teknisi -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6">
-                    <h5 class="font-semibold text-lg mb-4">Rekomendasi Teknisi (Rating Tertinggi)</h5>
+                    <h5 class="font-semibold text-lg mb-4">Teknisi dengan rating tertinggi</h5>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         @foreach($topRated as $t)
                             @include('pengguna.components.cardTeknisi', ['t' => $t])
@@ -44,7 +52,7 @@
             <!-- Teknisi Random -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6">
-                    <h5 class="font-semibold text-lg mb-4">Teknisi Random</h5>
+                    <h5 class="font-semibold text-lg mb-4">Rekomendasi Teknisi</h5>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         @foreach($random as $t)
                             @include('pengguna.components.cardTeknisi', ['t' => $t])

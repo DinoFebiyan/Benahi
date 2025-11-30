@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-4">
         <div class="card p-4 text-center">
-            <img src="{{ $teknisi->foto ?: 'https://via.placeholder.com/120' }}" class="avatar mx-auto mb-3" style="width:120px;height:120px;">
+            <img src="{{ $teknisi->foto ?: asset('images/profil.png') }}" class="avatar mx-auto mb-3" style="width:120px;height:120px;">
             <h4>{{ $teknisi->nama }}</h4>
             <p class="text-muted">{{ $teknisi->kategori }}</p>
             <p class="rating">⭐ {{ $teknisi->rating }} ({{ $teknisi->jumlah_rating }} ulasan)</p>
@@ -21,7 +21,7 @@
 
         <div class="card p-4">
             <h5>Form Pemesanan</h5>
-            <form action="{{ route('order.store', $teknisi->id) }}" method="POST">
+            <form action="{{ route('user.orderTeknisi', $teknisi->id) }}" method="POST">
                 @csrf
                 <div class="mb-2">
                     <label>Nama Pemesan</label>
@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="mb-2">
-                    <label>Nama Barang</label>
+                    <label>Nama Barang yang rusak</label>
                     <input type="text" name="nama_barang" class="form-control" required>
                 </div>
 
