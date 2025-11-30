@@ -21,7 +21,19 @@
 <h5 class="mt-5">Pesanan Terbaru</h5>
 <div class="mt-3">
     @forelse($recent as $order)
-        @include('user.components.cardPesanan',['order'=>$order])
+        <div class="bg-white shadow rounded-lg p-4 mb-3">
+            <p><strong>ID Order:</strong> {{ $order->id }}</p>
+            <p><strong>Status:</strong> {{ ucfirst($order->status) }}</p>
+            <p><strong>Total:</strong> Rp{{ number_format($order->total_price ?? 0, 0, ',', '.') }}</p>
+            @if($order->status === 'pending')
+                <a href="{{ route('payments.create', $order->id) }}" 
+                   class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                   Bayar Sekarang
+                </a>
+            @else
+                <span class="text-gray-500">Sudah Dibayar</span>
+            @endif
+        </div>
     @empty
         <p class="text-muted">Belum ada pesanan.</p>
     @endforelse

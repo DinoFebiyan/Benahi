@@ -2,26 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Teknisi;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\OrderMail;
+use App\Mail\OrderPlacedMail;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function store(Request $request, $teknisiId)
     {
         $request->validate([
-            'nama_pemesan' => 'required',
-            'alamat' => 'required',
-            'nama_barang' => 'required',
-            'detail_kerusakan' => 'required',
+            'nama_pemesan' => 'required|string|max:255',
+            'alamat' => 'required|string',
+            'nama_barang' => 'required|string',
+            'detail_kerusakan' => 'required|string',
+            'metode_pembayaran' => 'required|in:COD,Transfer,E-Wallet',
         ]);
 
+        $teknisi = Teknisi::findOrFail($teknisiId);
+
         $order = Order::create([
-            'user_id' => auth()->id(),
-            'teknisi_id' => $teknisiId,
+            'user_id' => Auth::id(),
+            'teknisi_id' => $teknisi->id,
             'nama_pemesan' => $request->nama_pemesan,
             'alamat' => $request->alamat,
             'nama_barang' => $request->nama_barang,
@@ -30,15 +39,20 @@ class OrderController extends Controller
             'status' => 'pending',
         ]);
 
-        // kirim email
-        Mail::to($order->teknisi->email)->send(new OrderMail($order));
+        // Kirim email ke teknisi
+        Mail::to($teknisi->email)->send(new OrderPlacedMail($order));
 
-        return redirect()->route('user.orders')->with('success','Pesanan berhasil dikirim!');
+        return redirect()->route('orders.index')
+            ->with('success','Pesanan berhasil dikirim. Teknisi akan menghubungi Anda.');
     }
 
     public function index()
     {
-        $orders = Order::where('user_id', auth()->id())->paginate(10);
-        return view('user.pesanan', compact('orders'));
+        $orders = Order::where('user_id', Auth::id())
+            ->with('teknisi')
+            ->latest()
+            ->paginate(10);
+
+        return view('orders.index', compact('orders'));
     }
 }
