@@ -164,7 +164,7 @@
   <section class="container mx-auto max-w-screen-lg px-6 py-10">
     <div class="bg-[#1b1b18] text-white rounded-lg p-6 flex flex-col sm:flex-row items-center justify-between gap-6">
       <div>
-        <h4 class="text-xl font-semibold">Butuh teknisi sekarang?</h4>
+        <h4 class="text-xl font-semibold">Butuh teknisi dino ganteng sekarang?</h4>
         <p class="text-sm text-gray-300">Pesan teknisi terpercaya, cepat dan aman.</p>
       </div>
       <a href="{{ route('pengguna.login') }}" class="px-6 py-3 bg-white text-[#1b1b18] rounded-md font-medium">Pesan Sekarang</a>
