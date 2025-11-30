@@ -4,8 +4,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\TeknisiUController;
+use App\Http\Controllers\TeknisiController;
 use App\Http\Controllers\Auth\PenggunaAuthController;
+use App\Http\Controllers\TeknisiDashboardController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -35,19 +36,19 @@ Route::middleware(['auth'])->group(function () {
         return app(UserDashboardController::class)->index();
     })->name('pengguna.dashboard');
 
-    // Login pengguna
-    Route::get('/login-pengguna', [PenggunaAuthController::class, 'showLoginForm'])
-        ->name('pengguna.login');
+    // // Login pengguna
+    // Route::get('/login-pengguna', [PenggunaAuthController::class, 'showLoginForm'])
+    //     ->name('pengguna.login');
 
-    Route::post('/login-pengguna', [PenggunaAuthController::class, 'login'])
-        ->name('pengguna.login.submit');
+    // Route::post('/login-pengguna', [PenggunaAuthController::class, 'login'])
+    //     ->name('pengguna.login.submit');
 
-    // Register pengguna
-    Route::get('/register-pengguna', [PenggunaAuthController::class, 'showRegisterForm'])
-        ->name('pengguna.register');
+    // // Register pengguna
+    // Route::get('/register-pengguna', [PenggunaAuthController::class, 'showRegisterForm'])
+    //     ->name('pengguna.register');
 
-    Route::post('/register-pengguna', [PenggunaAuthController::class, 'register'])
-        ->name('pengguna.register.submit');
+    // Route::post('/register-pengguna', [PenggunaAuthController::class, 'register'])
+    //     ->name('pengguna.register.submit');
 
     // Detail teknisi
     Route::get('/teknisi/{id}', [TeknisiUController::class, 'detail'])->name('user.teknisiDetail');
@@ -78,12 +79,14 @@ Route::middleware(['auth'])->group(function () {
     | Dashboard Teknisi
     |--------------------------------------------------------------------------
     */
-    Route::get('/dashboard-teknisi', function () {
-        if (Auth::user()->role !== 'teknisi') {
-            abort(403, 'Anda tidak memiliki akses.');
-        }
-        return view('teknisi.dashboard');
-    })->name('teknisi.dashboard');
+   
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/dashboard-teknisi', [TeknisiDashboardController::class, 'dashboard'])->name('teknisi.dashboard');
+        Route::get('/teknisi/order/{id}', [TeknisiController::class, 'show'])->name('teknisi.order.show');
+        Route::put('/teknisi/order/{id}', [TeknisiController::class, 'updateOrder'])->name('teknisi.updateOrder');
+    });
+    
+    //Route::put('/teknisi/order/{id}', [TeknisiController::class, 'updateOrder'])->name('teknisi.updateOrder');
 
     /*
     |--------------------------------------------------------------------------
@@ -137,7 +140,7 @@ Route::middleware(['auth'])->group(function () {
             ->name('payments.show');
     });
 
-    Route::middleware('auth', role: admin)->group (function())
+   
 
 });
 
