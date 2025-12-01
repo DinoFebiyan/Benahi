@@ -43,10 +43,6 @@ class PaymentController extends Controller
             'transaction_id' => uniqid('TRX-')
         ]);
 
-        // Update status order
-        $order->status = 'paid';
-        $order->save();
-
         return redirect()->route('payments.show', $payment->id)
                          ->with('success', 'Pembayaran berhasil.');
     }

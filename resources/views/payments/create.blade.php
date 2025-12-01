@@ -6,8 +6,8 @@
     <div class="py-6">
         <div class="bg-white shadow rounded-lg p-6 max-w-md mx-auto">
             <h3 class="text-lg font-semibold mb-4">Detail Order</h3>
-            <p><strong>Nama Pemesan:</strong> {{ $order->nama_pemesan }}</p>
-            <p><strong>Alamat:</strong> {{ $order->alamat }}</p>
+            <p><strong>Nama Barang:</strong> {{ $order->nama_barang }}</p>
+            <p><strong>Detail Kerusakan:</strong> {{ $order->detail_kerusakan }}</p>
             <p><strong>Total Bayar:</strong> Rp{{ number_format($order->total_bayar, 0, ',', '.') }}</p>
 
             <hr class="my-4">

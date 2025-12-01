@@ -74,14 +74,23 @@
                                         <p class="text-gray-600"><strong>Status:</strong> {{ ucfirst($order->status) }}</p>
                                         <p class="text-gray-600"><strong>Total:</strong> Rp{{ number_format($order->total_bayar ?? 0, 0, ',', '.') }}</p>
                                     </div>
-                                    @if($order->status === 'pending')
-                                        <a href="{{ route('payments.create', $order->id) }}" 
-                                           class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                           Bayar Sekarang
-                                        </a>
-                                    @else
-                                        <span class="text-gray-500">Sudah Dibayar</span>
-                                    @endif
+@php
+    $isPaid = $order->payment && $order->payment->status === 'paid';
+@endphp
+
+@if($isPaid)
+    <span class="text-green-600 font-semibold">Sudah Dibayar</span>
+@elseif($order->status === 'diterima')
+    <a href="{{ route('payments.create', $order->id) }}" class="...">Bayar Sekarang</a>
+@elseif($order->status === 'pending')
+    <span>Menunggu konfirmasi teknisi</span>
+@elseif($order->status === 'selesai')
+    <span>Selesai</span>
+@elseif($order->status === 'ditolak')
+    <span>Ditolak</span>
+@endif
+
+
                                 </div>
                             </div>
                         @empty

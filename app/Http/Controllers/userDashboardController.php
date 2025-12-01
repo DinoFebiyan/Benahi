@@ -10,23 +10,17 @@ use Illuminate\Support\Facades\Auth;
 class UserDashboardController extends Controller
 {
     public function index()
-    {
-        // teknisi rating tertinggi
-        $topRated = Teknisi::orderBy('rating', 'DESC')
-                        ->take(4)
-                        ->get();
+{
+    $topRated = Teknisi::orderBy('rating', 'DESC')->take(4)->get();
+    $random = Teknisi::inRandomOrder()->take(4)->get();
 
-        // teknisi random
-        $random = Teknisi::inRandomOrder()
-                        ->take(4)
-                        ->get();
+    $recent = Order::with('payment') // ⬅️ penting untuk cek status pembayaran
+                   ->where('user_id', Auth::id())
+                   ->latest()
+                   ->take(5)
+                   ->get();
 
-        // pesanan terbaru user yang sedang login
-        $recent = Order::where('user_id', Auth::id())
-                        ->latest()
-                        ->take(5)
-                        ->get();
+    return view('pengguna.dashboard', compact('topRated', 'random', 'recent'));
+}
 
-        return view('pengguna.dashboard', compact('topRated', 'random', 'recent'));
-    }
 }

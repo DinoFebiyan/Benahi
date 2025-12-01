@@ -42,15 +42,22 @@ class TeknisiController extends Controller
     {
         $order = Order::findOrFail($id);
 
-        // Update total harga
-        $order->total_harga = $request->total_harga;
+        // Update total bayar
+        $order->total_bayar = $request->total_bayar;
 
         // Update status berdasarkan tombol yang diklik
-        if ($request->action === 'accepted') {
-            $order->status = 'Diterima oleh teknisi';
-        } elseif ($request->action === 'rejected') {
-            $order->status = 'Ditolak oleh teknisi';
-        }
+            if ($request->action === 'accepted') {
+                $order->status = 'diterima';
+            } elseif ($request->action === 'rejected') {
+                $order->status = 'ditolak';
+            }
+
+$request->validate([
+    'total_bayar' => $request->action === 'accepted' ? 'required|numeric|min:1000' : 'nullable|numeric',
+    'action' => 'required|in:accepted,rejected',
+]);
+
+
 
         $order->save();
 

@@ -19,20 +19,20 @@
     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-white border rounded-xl shadow p-6 text-center">
             <h4 class="text-gray-700 font-semibold text-lg">Laporan Masuk</h4>
-            <p class="text-4xl font-bold text-blue-600 mt-2">{{ $orders->where('status', 'Menunggu')->count() }}</p>
+            <p class="text-4xl font-bold text-blue-600 mt-2">{{ $orders->where('status', 'pending')->count() }}</p>
             <p class="text-gray-500 text-sm mt-1">Menunggu ditindaklanjuti</p>
         </div>
 
         <div class="bg-white border rounded-xl shadow p-6 text-center">
-            <h4 class="text-gray-700 font-semibold text-lg">Sedang Dikerjakan</h4>
+            <h4 class="text-gray-700 font-semibold text-lg">Menunggu Pengerjaan</h4>
             <p class="text-4xl font-bold text-yellow-500 mt-2">{{ $orders->where('status', 'Diterima oleh teknisi')->count() }}</p>
             <p class="text-gray-500 text-sm mt-1">Dalam proses servis</p>
         </div>
 
         <div class="bg-white border rounded-xl shadow p-6 text-center">
-            <h4 class="text-gray-700 font-semibold text-lg">Selesai</h4>
-            <p class="text-4xl font-bold text-green-600 mt-2">{{ $orders->where('status', 'Selesai')->count() }}</p>
-            <p class="text-gray-500 text-sm mt-1">Telah selesai servis</p>
+            <h4 class="text-gray-700 font-semibold text-lg">Ditolak</h4>
+            <p class="text-4xl font-bold text-red-600 mt-2">{{ $orders->where('status', 'Ditolak oleh teknisi')->count() }}</p>
+            <p class="text-gray-500 text-sm mt-1">Anda menolak pengajuan servis</p>
         </div>
     </div>
 
@@ -63,7 +63,7 @@
         <table class="min-w-full border-collapse w-full">
             <thead>
                 <tr class="bg-gray-100 border-b">
-                    <th class="py-3 px-4 text-left">Nama Pelapor</th>
+                    <th class="py-3 px-4 text-left">Nama Pemesan</th>
                     <th class="py-3 px-4 text-left">Kerusakan</th>
                     <th class="py-3 px-4 text-left">Status</th>
                     <th class="py-3 px-4 text-left">Aksi</th>
@@ -72,18 +72,19 @@
             <tbody>
                 @foreach($orders as $order)
                 <tr class="border-b hover:bg-gray-50">
-                    <td class="py-3 px-4">{{ $order->user->name }}</td>
-                    <td class="py-3 px-4">{{ $order->kerusakan }}</td>
+                    <td class="py-3 px-4">{{ $order->nama_pemesan }}</td>
+                    <td class="py-3 px-4">{{ $order->nama_barang }}</td>
                     <td class="py-3 px-4">
-                        @if($order->status === 'Diterima oleh teknisi')
-                            <span class="text-yellow-600 font-semibold">{{ $order->status }}</span>
-                        @elseif($order->status === 'Ditolak oleh teknisi')
-                            <span class="text-red-600 font-semibold">{{ $order->status }}</span>
-                        @elseif($order->status === 'Selesai')
-                            <span class="text-green-600 font-semibold">{{ $order->status }}</span>
+                        @if($order->status === 'diterima')
+                            <span class="text-green-600 font-semibold">Diterima oleh teknisi</span>
+                        @elseif($order->status === 'ditolak')
+                            <span class="text-red-600 font-semibold">Ditolak oleh teknisi</span>
+                        @elseif($order->status === 'selesai')
+                            <span class="text-blue-600 font-semibold">Selesai</span>
                         @else
-                            <span class="text-gray-600 font-semibold">{{ $order->status }}</span>
+                            <span class="text-gray-600 font-semibold">Pending</span>
                         @endif
+
                     </td>
                     <td class="py-3 px-4">
                         <a href="{{ route('teknisi.order.show', $order->id) }}" 
