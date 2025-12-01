@@ -51,10 +51,10 @@ Route::middleware(['auth'])->group(function () {
     //     ->name('pengguna.register.submit');
 
     // Detail teknisi
-    Route::get('/teknisi/{id}', [TeknisiUController::class, 'detail'])->name('user.teknisiDetail');
+    Route::get('/teknisi/{id}', [TeknisiController::class, 'detail'])->name('user.teknisiDetail');
 
     // Pencarian teknisi
-    Route::get('/search', [TeknisiUController::class, 'search'])->name('user.searchTeknisi');
+    Route::get('/search', [TeknisiController::class, 'search'])->name('user.searchTeknisi');
 
     // Order teknisi
     Route::post('/order/{teknisiId}', [OrderController::class, 'store'])->name('user.orderTeknisi');

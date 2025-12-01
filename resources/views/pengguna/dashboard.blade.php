@@ -70,7 +70,7 @@
                             <div class="border rounded-lg p-4">
                                 <div class="flex justify-between items-start">
                                     <div>
-                                        <p class="font-medium"><strong>ID Order:</strong> {{ $order->id }}</p>
+                                        <p class="font-medium"><strong>Nama Barang:</strong> {{ $order->nama_barang }}</p>
                                         <p class="text-gray-600"><strong>Status:</strong> {{ ucfirst($order->status) }}</p>
                                         <p class="text-gray-600"><strong>Total:</strong> Rp{{ number_format($order->total_bayar ?? 0, 0, ',', '.') }}</p>
                                     </div>
@@ -81,7 +81,7 @@
 @if($isPaid)
     <span class="text-green-600 font-semibold">Sudah Dibayar</span>
 @elseif($order->status === 'diterima')
-    <a href="{{ route('payments.create', $order->id) }}" class="...">Bayar Sekarang</a>
+    <a href="{{ route('payments.create', $order->id) }}" class="inline-block px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">Bayar Sekarang</a>
 @elseif($order->status === 'pending')
     <span>Menunggu konfirmasi teknisi</span>
 @elseif($order->status === 'selesai')

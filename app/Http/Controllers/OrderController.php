@@ -37,8 +37,8 @@ class OrderController extends Controller
         // Kirim email ke teknisi
         Mail::to($teknisi->email)->send(new OrderPlacedMail($order));
 
-        return redirect()->route('user.orders')
-            ->with('success','Pesanan berhasil dikirim. Teknisi akan menghubungi Anda.');
+        // Redirect ke dashboard pengguna
+    return redirect()->route('pengguna.dashboard')->with('success', 'Pesanan berhasil dibuat.');
     }
 
     public function index()
