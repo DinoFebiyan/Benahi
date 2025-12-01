@@ -27,11 +27,12 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="amount" class="block text-gray-700">Jumlah Pembayaran</label>
-                    <input type="number" name="amount" id="amount" value="{{ $order->total_bayar }}" 
-                           class="w-full border rounded px-3 py-2" readonly>
-                </div>
+<div class="mb-4">
+    <label for="amount" class="block text-gray-700">Jumlah Pembayaran</label>
+    <input type="number" name="amount" id="amount" value="{{ $order->total_bayar }}" 
+           class="w-full border rounded px-3 py-2">
+</div>
+
 
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                     Bayar Sekarang
