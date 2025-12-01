@@ -6,8 +6,8 @@
     <div class="py-6">
         <div class="bg-white shadow rounded-lg p-6 max-w-md mx-auto">
             <h3 class="text-lg font-semibold mb-4">Detail Order</h3>
-            <p><strong>Nama Pemesan:</strong> {{ $order->nama_pemesan }}</p>
-            <p><strong>Alamat:</strong> {{ $order->alamat }}</p>
+            <p><strong>Nama Barang:</strong> {{ $order->nama_barang }}</p>
+            <p><strong>Detail Kerusakan:</strong> {{ $order->detail_kerusakan }}</p>
             <p><strong>Total Bayar:</strong> Rp{{ number_format($order->total_bayar, 0, ',', '.') }}</p>
 
             <hr class="my-4">
@@ -27,11 +27,12 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="amount" class="block text-gray-700">Jumlah Pembayaran</label>
-                    <input type="number" name="amount" id="amount" value="{{ $order->total_bayar }}" 
-                           class="w-full border rounded px-3 py-2" readonly>
-                </div>
+<div class="mb-4">
+    <label for="amount" class="block text-gray-700">Jumlah Pembayaran</label>
+    <input type="number" name="amount" id="amount" value="{{ $order->total_bayar }}" 
+           class="w-full border rounded px-3 py-2">
+</div>
+
 
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                     Bayar Sekarang

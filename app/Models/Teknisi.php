@@ -10,7 +10,17 @@ class Teknisi extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama','email','kategori','keahlian','cv','foto','rating','jumlah_rating','pengalaman_tahun'
+        'nama',
+        'email',
+        'kategori',
+        'keahlian',
+        'cv',
+        'foto',
+        'rating',
+        'jumlah_rating',
+        'pengalaman_tahun',
+        'deskripsi',
+        'telepon',
     ];
 
     public function orders()

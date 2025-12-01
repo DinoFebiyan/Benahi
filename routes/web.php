@@ -2,7 +2,12 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminUserController;
-use App\Http\Controllers\PaymentController; // <-- Tambahkan ini
+use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\TeknisiController;
+use App\Http\Controllers\Auth\PenggunaAuthController;
+use App\Http\Controllers\TeknisiDashboardController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -20,14 +25,48 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 | Dashboard Multi-Role
 |--------------------------------------------------------------------------
-|
-| Sesuai role user, redirect ke dashboard masing-masing.
-| Gunakan middleware 'auth' dan 'verified'.
-|
 */
 Route::middleware(['auth'])->group(function () {
 
-    // Dashboard Admin
+    // Dashboard Pengguna
+    Route::get('/dashboard', function () {
+        if (Auth::user()->role !== 'pengguna') {
+            abort(403, 'Anda tidak memiliki akses.');
+        }
+        return app(UserDashboardController::class)->index();
+    })->name('pengguna.dashboard');
+
+    // // Login pengguna
+    // Route::get('/login-pengguna', [PenggunaAuthController::class, 'showLoginForm'])
+    //     ->name('pengguna.login');
+
+    // Route::post('/login-pengguna', [PenggunaAuthController::class, 'login'])
+    //     ->name('pengguna.login.submit');
+
+    // // Register pengguna
+    // Route::get('/register-pengguna', [PenggunaAuthController::class, 'showRegisterForm'])
+    //     ->name('pengguna.register');
+
+    // Route::post('/register-pengguna', [PenggunaAuthController::class, 'register'])
+    //     ->name('pengguna.register.submit');
+
+    // Detail teknisi
+    Route::get('/teknisi/{id}', [TeknisiController::class, 'detail'])->name('user.teknisiDetail');
+
+    // Pencarian teknisi
+    Route::get('/search', [TeknisiController::class, 'search'])->name('user.searchTeknisi');
+
+    // Order teknisi
+    Route::post('/order/{teknisiId}', [OrderController::class, 'store'])->name('user.orderTeknisi');
+
+    // Daftar pesanan user
+    Route::get('/orders', [OrderController::class, 'index'])->name('user.orders');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard Admin
+    |--------------------------------------------------------------------------
+    */
     Route::get('/dashboard-admin', function () {
         if (Auth::user()->role !== 'admin') {
             abort(403, 'Anda tidak memiliki akses.');
@@ -35,21 +74,19 @@ Route::middleware(['auth'])->group(function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
 
-    // Dashboard Teknisi
-    Route::get('/dashboard-teknisi', function () {
-        if (Auth::user()->role !== 'teknisi') {
-            abort(403, 'Anda tidak memiliki akses.');
-        }
-        return view('teknisi.dashboard');
-    })->name('teknisi.dashboard');
-
-    // Dashboard Pengguna
-    Route::get('/dashboard', function () {
-        if (Auth::user()->role !== 'pengguna') {
-            abort(403, 'Anda tidak memiliki akses.');
-        }
-        return view('pengguna.dashboard');
-    })->name('pengguna.dashboard');
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard Teknisi
+    |--------------------------------------------------------------------------
+    */
+   
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/dashboard-teknisi', [TeknisiDashboardController::class, 'dashboard'])->name('teknisi.dashboard');
+        Route::get('/teknisi/order/{id}', [TeknisiController::class, 'show'])->name('teknisi.order.show');
+        Route::put('/teknisi/order/{id}', [TeknisiController::class, 'updateOrder'])->name('teknisi.updateOrder');
+    });
+    
+    //Route::put('/teknisi/order/{id}', [TeknisiController::class, 'updateOrder'])->name('teknisi.updateOrder');
 
     /*
     |--------------------------------------------------------------------------
@@ -102,6 +139,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('payment/{payment}', [PaymentController::class, 'show'])
             ->name('payments.show');
     });
+
+   
 
 });
 

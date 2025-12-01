@@ -40,9 +40,8 @@
               Dashboard
             </a>
           @else
-            <a href="{{ route('login') }}" 
-              class="px-5 py-2 border rounded text-sm">
-              Masuk
+            <a href="{{ route('login') }}" class="px-5 py-2 border rounded text-sm">
+                Masuk
             </a>
             @if (Route::has('register'))
               <a href="{{ route('register') }}" 
@@ -204,7 +203,7 @@
       <a href="{{ route('login') }}" class="px-5 py-3 bg-[#1b1b18] text-white rounded-md">Pesan Sekarang</a>
     </div>
     <div class="text-center text-sm text-[#706f6c] dark:text-gray-400 py-4">
-      © copyright by Dino Febiyan
+      © copyright by Benahi.com
     </div>
   </footer>
 
