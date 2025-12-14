@@ -19,21 +19,54 @@
     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-white border rounded-xl shadow p-6 text-center">
             <h4 class="text-gray-700 font-semibold text-lg">Laporan Masuk</h4>
-            <p class="text-4xl font-bold text-blue-600 mt-2">{{ $orders->where('status', 'pending')->count() }}</p>
+            <p class="text-4xl font-bold text-blue-600 mt-2">{{ $ordersKesimpulan->where('status', 'pending')->count() }}</p>
             <p class="text-gray-500 text-sm mt-1">Menunggu ditindaklanjuti</p>
         </div>
 
         <div class="bg-white border rounded-xl shadow p-6 text-center">
             <h4 class="text-gray-700 font-semibold text-lg">Menunggu Pengerjaan</h4>
-            <p class="text-4xl font-bold text-yellow-500 mt-2">{{ $orders->where('status', 'Diterima oleh teknisi')->count() }}</p>
-            <p class="text-gray-500 text-sm mt-1">Dalam proses servis</p>
+            <p class="text-4xl font-bold text-yellow-500 mt-2">{{ $ordersKesimpulan->where('status', 'diterima')->count() }}</p>
+            <p class="text-gray-500 text-sm mt-1">Perlu dikerjakan</p>
         </div>
 
         <div class="bg-white border rounded-xl shadow p-6 text-center">
-            <h4 class="text-gray-700 font-semibold text-lg">Ditolak</h4>
-            <p class="text-4xl font-bold text-red-600 mt-2">{{ $orders->where('status', 'Ditolak oleh teknisi')->count() }}</p>
-            <p class="text-gray-500 text-sm mt-1">Anda menolak pengajuan servis</p>
+            <h4 class="text-gray-700 font-semibold text-lg">Selesai</h4>
+            <p class="text-4xl font-bold text-green-600 mt-2">{{ $ordersKesimpulan->where('status', 'selesai')->count() }}</p>
+            <p class="text-gray-500 text-sm mt-1">Servis telah diselesaikan</p>
         </div>
+    </div>
+
+    {{-- Tabel Daftar Permintaan Servis --}}
+    <div class="mt-10 bg-white border shadow rounded-xl p-6">
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Daftar Permintaan Servis</h3>
+
+        <table class="min-w-full border-collapse w-full">
+            <thead>
+                <tr class="bg-gray-100 border-b">
+                    <th class="py-3 px-4 text-left">Nama Pemesan</th>
+                    <th class="py-3 px-4 text-left">Nama Barang</th>
+                    <th class="py-3 px-4 text-left">Kerusakan</th>
+                    <th class="py-3 px-4 text-left">Tanggal Servis</th>
+                    <th class="py-3 px-4 text-left">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($orders as $order)
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="py-3 px-4">{{ $order->nama_pemesan }}</td>
+                    <td class="py-3 px-4">{{ $order->nama_barang }}</td>
+                    <td class="py-3 px-4">{{ $order->detail_kerusakan }}</td>
+                    <td class="py-3 px-4">{{ \Carbon\Carbon::parse($order->tanggal_servis)->format('d M Y') }}</td>
+                    <td class="py-3 px-4">
+                        <a href="{{ route('teknisi.order.show', $order->id) }}" 
+                            class="bg-black text-white px-3 py-1 rounded-lg hover:opacity-80 transition">
+                            Detail
+                        </a>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 
     {{-- Kalender FullCalendar --}}
@@ -56,45 +89,5 @@
     </script>
     @endpush
 
-    {{-- Tabel Daftar Permintaan Servis --}}
-    <div class="mt-10 bg-white border shadow rounded-xl p-6">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Daftar Permintaan Servis</h3>
-
-        <table class="min-w-full border-collapse w-full">
-            <thead>
-                <tr class="bg-gray-100 border-b">
-                    <th class="py-3 px-4 text-left">Nama Pemesan</th>
-                    <th class="py-3 px-4 text-left">Kerusakan</th>
-                    <th class="py-3 px-4 text-left">Status</th>
-                    <th class="py-3 px-4 text-left">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($orders as $order)
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="py-3 px-4">{{ $order->nama_pemesan }}</td>
-                    <td class="py-3 px-4">{{ $order->nama_barang }}</td>
-                    <td class="py-3 px-4">
-                        @if($order->status === 'diterima')
-                            <span class="text-green-600 font-semibold">Diterima oleh teknisi</span>
-                        @elseif($order->status === 'ditolak')
-                            <span class="text-red-600 font-semibold">Ditolak oleh teknisi</span>
-                        @elseif($order->status === 'selesai')
-                            <span class="text-blue-600 font-semibold">Selesai</span>
-                        @else
-                            <span class="text-gray-600 font-semibold">Pending</span>
-                        @endif
-
-                    </td>
-                    <td class="py-3 px-4">
-                        <a href="{{ route('teknisi.order.show', $order->id) }}" 
-                            class="bg-black text-white px-3 py-1 rounded-lg hover:opacity-80 transition">
-                            Detail
-                        </a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+    
 </x-app-layout>

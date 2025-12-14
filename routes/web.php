@@ -77,6 +77,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard-teknisi', [TeknisiDashboardController::class, 'dashboard'])->name('teknisi.dashboard');
         Route::get('/teknisi/order/{id}', [TeknisiController::class, 'show'])->name('teknisi.order.show');
+        Route::get('/teknisi/tanggal/{id}', [TeknisiDashboardController::class, 'show'])->name('teknisi.order.showDetailTanggal');
         Route::put('/teknisi/order/{id}', [TeknisiController::class, 'updateOrder'])->name('teknisi.updateOrder');
     });
 

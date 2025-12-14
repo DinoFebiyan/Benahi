@@ -63,28 +63,30 @@ class TeknisiController extends Controller
 
     // Update status pesanan oleh teknisi
     public function updateOrder(Request $request, $id)
-    {
-        $order = Order::findOrFail($id);
+{
+    $order = Order::findOrFail($id);
 
-        // Update total bayar
-        $order->total_bayar = $request->total_bayar;
+    // Update total bayar (opsional, bisa kosong kalau selesai)
+    $order->total_bayar = $request->total_bayar;
 
-        // Update status berdasarkan tombol yang diklik
-            if ($request->action === 'accepted') {
-                $order->status = 'diterima';
-            } elseif ($request->action === 'rejected') {
-                $order->status = 'ditolak';
-            }
-
-$request->validate([
-    'total_bayar' => $request->action === 'accepted' ? 'required|numeric|min:1000' : 'nullable|numeric',
-    'action' => 'required|in:accepted,rejected',
-]);
-
-
-
-        $order->save();
-
-        return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui.');
+    // Update status berdasarkan tombol yang diklik
+    if ($request->action === 'accepted') {
+        $order->status = 'diterima';
+    } elseif ($request->action === 'rejected') {
+        $order->status = 'ditolak';
+    } elseif ($request->action === 'selesai') {
+        $order->status = 'selesai';
     }
+
+    // Validasi
+    $request->validate([
+        'total_bayar' => $request->action === 'accepted' ? 'required|numeric|min:1000' : 'nullable|numeric',
+        'action' => 'required|in:accepted,rejected,selesai',
+    ]);
+
+    $order->save();
+
+    return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui.');
+}
+
 }

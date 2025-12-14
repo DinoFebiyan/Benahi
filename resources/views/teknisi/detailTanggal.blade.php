@@ -12,20 +12,19 @@
     <p><strong>Detail Kerusakan:</strong> {{ $order->detail_kerusakan }}</p>
     <p><strong>Alamat:</strong> {{ $order->alamat }}</p>
     <p><strong>Metode Pembayaran:</strong> {{ $order->metode_pembayaran }}</p>
-    <p><strong>Status:</strong> {{ $order->status }}</p>
+    <p><strong>Total Bayar:</strong> {{ $order->total_bayar }}</p>
 
     <form action="{{ route('teknisi.updateOrder', $order->id) }}" method="POST" class="mt-4">
-        @csrf
-        @method('PUT')
+    @csrf
+    @method('PUT')
 
-        <label for="total_bayar" class="block font-semibold mb-1">Tetapkan Total Harga Servis</label>
-        <input type="number" name="total_bayar" id="total_bayar" class="border rounded px-3 py-2 w-full" >
-
-        <div class="mt-4 flex gap-4">
-            <button name="action" value="accepted" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Diterima</button>
-            <button name="action" value="rejected" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Ditolak</button>
-        </div>
-    </form>
+    <div class="mt-4 flex gap-4">
+        <button name="action" value="selesai" 
+            class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            Tandai Selesai
+        </button>
+    </div>
+</form>
 </div>
 
     </div>
