@@ -83,7 +83,7 @@ class TeknisiDashboardController extends Controller
 
     public function show($id)
     {
-        $order = Order::with('user')->findOrFail($id); // pastikan relasi user dimuat
+        $order = Order::with('user','payment')->findOrFail($id);
         return view('teknisi.detailTanggal', compact('order')); // kirim variabel $order ke Blade
     }
 }

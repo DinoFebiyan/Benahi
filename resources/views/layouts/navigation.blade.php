@@ -31,7 +31,7 @@
                             Dashboard Pengguna
                         </x-nav-link>
                         <x-nav-link :href="route('user.orders')" :active="request()->routeIs('user.orders')">
-                            Pesanan Saya
+                            Riwayat Pesanan
                         </x-nav-link>
                     @endif
                 </div>

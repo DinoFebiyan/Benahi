@@ -8,6 +8,7 @@ use App\Models\Teknisi;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderPlacedMail;
+use App\Models\Payment;
 
 class OrderController extends Controller
 {
@@ -36,6 +37,16 @@ class OrderController extends Controller
             'status' => 'pending',
         ]);
 
+        if ($request->metode_pembayaran === 'COD') {
+            Payment::create([
+                'order_id' => $order->id,
+                'amount' => 0, // bisa diisi nanti oleh teknisi
+                'payment_method' => 'COD',
+                'status' => 'cod',
+                'transaction_id' => uniqid('TRX-')
+            ]);
+        }
+
         // Kirim email ke teknisi
         Mail::to($teknisi->email)->send(new OrderPlacedMail($order));
 
@@ -52,4 +63,17 @@ class OrderController extends Controller
 
         return view('pengguna.pesanan', compact('orders'));
     }
+
+    public function show($id)
+    {
+        $order = Order::with(['teknisi', 'payment'])->findOrFail($id);
+        return view('pengguna.detail', compact('order'));
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
+
+
 }

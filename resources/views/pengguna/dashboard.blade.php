@@ -74,22 +74,27 @@
                                         <p class="text-gray-600"><strong>Status:</strong> {{ ucfirst($order->status) }}</p>
                                         <p class="text-gray-600"><strong>Total:</strong> Rp{{ number_format($order->total_bayar ?? 0, 0, ',', '.') }}</p>
                                     </div>
-@php
-    $isPaid = $order->payment && $order->payment->status === 'paid';
-@endphp
+                                    @php
+                                        $isPaid = $order->payment && $order->payment->status === 'paid';
+                                        $isCOD  = $order->payment && $order->payment->status === 'cod';
+                                    @endphp
 
-@if($isPaid)
-    <span class="text-green-600 font-semibold">Sudah Dibayar</span>
-@elseif($order->status === 'diterima')
-    <a href="{{ route('payments.create', $order->id) }}" class="inline-block px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">Bayar Sekarang</a>
-@elseif($order->status === 'pending')
-    <span>Menunggu konfirmasi teknisi</span>
-@elseif($order->status === 'selesai')
-    <span>Selesai</span>
-@elseif($order->status === 'ditolak')
-    <span>Ditolak</span>
-@endif
-
+                                    @if($isPaid)
+                                        <span class="text-green-600 font-semibold">Sudah Dibayar</span>
+                                    @elseif($isCOD)
+                                        <span class="text-yellow-600 font-semibold">Bayar di Tempat (COD)</span>
+                                    @elseif($order->status === 'diterima')
+                                        <a href="{{ route('payments.create', $order->id) }}" 
+                                        class="inline-block px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        Bayar Sekarang
+                                        </a>
+                                    @elseif($order->status === 'pending')
+                                        <span>Tunggu Konfirmasi Teknisi Untuk Membayar</span>
+                                    @elseif($order->status === 'selesai')
+                                        <span>Selesai</span>
+                                    @elseif($order->status === 'ditolak')
+                                        <span>Ditolak</span>
+                                    @endif
 
                                 </div>
                             </div>

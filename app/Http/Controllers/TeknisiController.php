@@ -66,8 +66,10 @@ class TeknisiController extends Controller
 {
     $order = Order::findOrFail($id);
 
-    // Update total bayar (opsional, bisa kosong kalau selesai)
-    $order->total_bayar = $request->total_bayar;
+    // Hanya update total_bayar kalau ada input
+    if ($request->filled('total_bayar')) {
+        $order->total_bayar = $request->total_bayar;
+    }
 
     // Update status berdasarkan tombol yang diklik
     if ($request->action === 'accepted') {
@@ -88,5 +90,6 @@ class TeknisiController extends Controller
 
     return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui.');
 }
+
 
 }
