@@ -8,10 +8,7 @@
     <div class="py-6">
         <div class="bg-white shadow rounded-lg p-6">
             <h3 class="text-lg font-semibold mb-2">Halo Teknisi {{ auth()->user()->name }}</h3>
-            <p class="text-gray-600">
-                Ini adalah dashboard teknisi.  
-                Nantinya kamu bisa menampilkan jadwal servis, permintaan booking, status pekerjaan, dan pengajuan cuti.
-            </p>
+            <p class="text-gray-600">Selamat datang di dashboard teknisi Benahi. Pantau dan kelola permintaan servis Anda di sini!</p>
         </div>
     </div>
 

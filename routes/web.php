@@ -111,6 +111,18 @@ Route::middleware(['auth'])->group(function () {
             }
             return app(AdminController::class)->create($request);
         })->name('admin.storeTeknisi');
+
+    });
+
+            Route::middleware(['auth'])->group(function () {
+        Route::post('/create-teknisi', function (Request $request) {
+            if (Auth::user()->role !== 'admin') {
+                abort(403, 'Anda tidak memiliki akses.');
+            }
+            return app(AdminController::class)->create($request);
+        })->name('admin.storeTeknisi');
+
+        Route::get('/dashboard-admin', [AdminController::class, 'index'])->name('admin.dashboard');
     });
 
     /*

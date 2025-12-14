@@ -17,6 +17,8 @@
             <p><strong>Status Pembayaran:</strong>
                 @if($order->payment && $order->payment->status === 'paid')
                     <span class="text-green-600 font-semibold">Sudah Dibayar</span>
+                @elseif($order->payment && $order->payment->status === 'cod')
+                    <span class="text-yellow-600 font-semibold">Bayar di Tempat (COD)</span>
                 @else
                     <span class="text-red-600 font-semibold">Belum Dibayar</span>
                 @endif
@@ -32,6 +34,15 @@
                         Tandai Selesai
                     </button>
                 </div>
+
+                {{-- Catatan khusus COD --}}
+                @if($order->metode_pembayaran === 'COD')
+                    <div class="mt-3 text-sm text-gray-600 border-t pt-3">
+                        <strong>Catatan:</strong> Pastikan pembayaran telah dilakukan sebelum Anda melakukan konfirmasi penyelesaian.
+                        Jika metode pembayaran adalah <span class="font-semibold">COD</span>, pastikan Anda sudah menerima pembayaran
+                        dengan nominal yang telah disepakati.
+                    </div>
+                @endif
             </form>
         </div>
     </div>

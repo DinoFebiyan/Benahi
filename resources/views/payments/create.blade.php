@@ -15,7 +15,8 @@
 
             <form action="{{ route('payments.store', $order->id) }}" method="POST">
                 @csrf
-
+                <input type="hidden" name="payment_method" value="{{ $order->metode_pembayaran }}">
+                <input type="hidden" name="amount" value="{{ $order->total_bayar }}">
 
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                     Bayar Sekarang
