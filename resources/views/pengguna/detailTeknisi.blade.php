@@ -44,6 +44,11 @@
                 </div>
 
                 <div class="mb-2">
+                    <label>Tanggal Servis</label>
+                    <input type="date" name="tanggal_servis" class="form-control" required>
+                </div>
+
+                <div class="mb-2">
                     <label>Metode Pembayaran</label>
                     <select name="metode_pembayaran" class="form-select">
                         <option>COD</option>

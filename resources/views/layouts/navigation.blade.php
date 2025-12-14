@@ -12,12 +12,28 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('pengguna.dashboard')" :active="request()->routeIs('pengguna.dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('user.orders')" :active="request()->routeIs('user.orders')">
-                        {{ __('Pesanan Saya') }}
-                    </x-nav-link>
+                    @if (Auth::user()->role === 'admin')
+                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                            Dashboard Admin
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.createTeknisi')" :active="request()->routeIs('admin.createTeknisi')">
+                            Tambah Teknisi
+                        </x-nav-link>
+                    @elseif (Auth::user()->role === 'teknisi')
+                        <x-nav-link :href="route('teknisi.dashboard')" :active="request()->routeIs('teknisi.dashboard')">
+                            Dashboard Teknisi
+                        </x-nav-link>
+                        <x-nav-link :href="route('teknisi.dataDiri')" :active="request()->routeIs('teknisi.dataDiri')">
+                            Data Diri
+                        </x-nav-link>
+                    @else
+                        <x-nav-link :href="route('pengguna.dashboard')" :active="request()->routeIs('pengguna.dashboard')">
+                            Dashboard Pengguna
+                        </x-nav-link>
+                        <x-nav-link :href="route('user.orders')" :active="request()->routeIs('user.orders')">
+                            Pesanan Saya
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 

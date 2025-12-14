@@ -30,6 +30,30 @@ class TeknisiController extends Controller
         return view('pengguna.search', compact('teknisis','q'));
     }
 
+    public function editDataDiri()
+    {
+        $teknisi = Teknisi::where('email', auth()->user()->email)->first();
+        return view('teknisi.data_diri', compact('teknisi'));
+    }
+
+    public function updateDataDiri(Request $request)
+    {
+        $teknisi = Teknisi::where('email', auth()->user()->email)->first();
+
+        $request->validate([
+            'nama' => 'required|min:3',
+            'telepon' => 'nullable|string',
+            'kategori' => 'nullable|string',
+            'keahlian' => 'nullable|string',
+            'deskripsi' => 'nullable|string',
+        ]);
+
+        $teknisi->update($request->only(['nama','telepon','kategori','keahlian','deskripsi']));
+
+        return redirect()->route('teknisi.dataDiri')->with('success', 'Data diri berhasil diperbarui.');
+    }
+
+
     // Menampilkan detail order untuk teknisi
     public function show($id)
     {

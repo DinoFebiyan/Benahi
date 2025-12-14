@@ -19,6 +19,7 @@ class OrderController extends Controller
             'nama_barang' => 'required|string',
             'detail_kerusakan' => 'required|string',
             'metode_pembayaran' => 'required|in:COD,Transfer,E-Wallet',
+            'tanggal_servis' => 'required|date|after_or_equal:today',
         ]);
 
         $teknisi = Teknisi::findOrFail($teknisiId);
@@ -31,6 +32,7 @@ class OrderController extends Controller
             'nama_barang' => $request->nama_barang,
             'detail_kerusakan' => $request->detail_kerusakan,
             'metode_pembayaran' => $request->metode_pembayaran,
+            'tanggal_servis' => $request->tanggal_servis,
             'status' => 'pending',
         ]);
 
