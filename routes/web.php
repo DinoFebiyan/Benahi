@@ -34,7 +34,7 @@ Route::middleware(['auth'])->group(function () {
             abort(403, 'Anda tidak memiliki akses.');
         }
         return app(UserDashboardController::class)->index();
-    })->name('pengguna.dashboard');
+})->middleware(['auth', 'verified'])->name('pengguna.dashboard');
 
     // ROUTE SPESIFIK harus DULUAN
     Route::get('/teknisi/data-diri', [TeknisiController::class, 'editDataDiri'])
