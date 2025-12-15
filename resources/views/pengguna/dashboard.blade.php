@@ -14,7 +14,7 @@
                         <!-- Greeting -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 text-gray-900">
-                    <h3 class="text-lg font-semibold">Halo, {{ auth()->user()->name }} 👋</h3>
+                    <h3 class="text-lg font-semibold">Halo, {{ auth()->user()->name }} !!</h3>
                     <p class="mt-2 text-gray-600">Selamat datang di dashboard pengguna Benahi. Temukan teknisi terbaik untuk kebutuhan Anda!</p>
                 </div>
             </div>
