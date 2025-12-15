@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->text('detail_kerusakan');
             $table->enum('metode_pembayaran', ['COD','Transfer'])->default('COD');
             $table->enum('status', ['pending','diterima','ditolak','selesai'])->default('pending');
-            $table->integer('total_bayar')->nullable(); 
+            $table->decimal('total_bayar', 10,2)->nullable(); 
             $table->timestamps();
         });
     }

@@ -8,14 +8,10 @@ use App\Models\Teknisi;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderPlacedMail;
+use App\Models\Payment;
 
 class OrderController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function store(Request $request, $teknisiId)
     {
         $request->validate([
@@ -24,6 +20,7 @@ class OrderController extends Controller
             'nama_barang' => 'required|string',
             'detail_kerusakan' => 'required|string',
             'metode_pembayaran' => 'required|in:COD,Transfer,E-Wallet',
+            'tanggal_servis' => 'required|date|after_or_equal:today',
         ]);
 
         $teknisi = Teknisi::findOrFail($teknisiId);
@@ -36,17 +33,47 @@ class OrderController extends Controller
             'nama_barang' => $request->nama_barang,
             'detail_kerusakan' => $request->detail_kerusakan,
             'metode_pembayaran' => $request->metode_pembayaran,
+            'tanggal_servis' => $request->tanggal_servis,
             'status' => 'pending',
         ]);
 
+        if ($request->metode_pembayaran === 'COD') {
+            Payment::create([
+                'order_id' => $order->id,
+                'amount' => 0, // bisa diisi nanti oleh teknisi
+                'payment_method' => 'COD',
+                'status' => 'cod',
+                'transaction_id' => uniqid('TRX-')
+            ]);
+        }
+
+        // Kirim email ke teknisi
         Mail::to($teknisi->email)->send(new OrderPlacedMail($order));
 
-        return redirect()->route('orders.index')->with('success','Pesanan berhasil dikirim. Teknisi akan menghubungi Anda.');
+        // Redirect ke dashboard pengguna
+    return redirect()->route('pengguna.dashboard')->with('success', 'Pesanan berhasil dibuat.');
     }
 
     public function index()
     {
-        $orders = Order::where('user_id', auth()->id())->with('teknisi')->latest()->paginate(10);
-        return view('orders.index', compact('orders'));
+        $orders = Order::where('user_id', Auth::id())
+            ->with('teknisi')
+            ->latest()
+            ->paginate(10);
+
+        return view('pengguna.pesanan', compact('orders'));
     }
+
+    public function show($id)
+    {
+        $order = Order::with(['teknisi', 'payment'])->findOrFail($id);
+        return view('pengguna.detail', compact('order'));
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
+
+
 }

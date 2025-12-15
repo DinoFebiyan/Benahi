@@ -23,8 +23,11 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            // AdminSeeder::class,
-            TeknisiSeeder::class,
+            //AdminSeeder::class,
+            // TeknisiSeeder::class,
+            TeknisiUserSeeder::class,
+            // TeknisiDataSeeder::class, // Duplikat dengan TeknisiSeeder
+            // TeknisiUpdateSeeder::class, // Untuk update user teknisi, bisa dipanggil terpisah
         ]);
     }
 }

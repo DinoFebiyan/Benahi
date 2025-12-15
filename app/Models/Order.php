@@ -19,6 +19,7 @@ class Order extends Model
         'metode_pembayaran',
         'status',       // pending, paid, etc
         'total_bayar',  // total harga
+        'tanggal_servis' // tanggal servis
     ];
 
     /**
